@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html> 
+	<head>
+		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<link rel="shortcut icon" href="http://example.com/favicon.ico" />
+		<title>hi</title>
+		<style>
+			html, body {
+				background-image: url("assets/background.jpg");
+				background-size: cover;
+				height: 100%;
+				width: 100%;
+			}
+			h1, h3 {
+				font-family: 'Roboto', sans-serif;
+				color: #45B39D;
+			}
+			#page-wrap {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				width: 400px;
+				padding: 20px;
+				background: #EBF5FB;
+				box-shadow: 0 0 40px black;
+				border-radius: 25px;
+				opacity: 0.8;
+			}
+		</style>
+		<script type="text/javascript">
+			const backgrounds = [
+				"bench",
+				"bench",
+				"bench",
+				"bench",
+				"bench",
+				"bench",
+				"bench",
+				"trees",
+				"trees",
+				"waterfall",
+				"waterfall",
+				"waterfall",
+				"waterfall",
+				"rocks"
+			]
+			const songs = [
+				"blacksmoke",
+				"asphalt",
+				"daisuke",
+				"daisuke",
+				"daisuke",
+				"daisuke",
+				"nujabes",
+				"nujabes",
+				"nujabes",
+				"nujabes",
+				"nujabes",
+				"nujabes",
+				"nujabes",
+				"nujabes"
+			]
+
+			function clamp(x, a, b)
+			{
+				return Math.max(a, Math.min(x, b));
+			}
+
+			function arrayRandom(arr)
+			{
+				return arr[Math.floor(Math.random() * arr.length)];
+			}
+
+			window.onload = init;
+
+			function init()
+			{
+				if (window.Event)
+				{
+					document.captureEvents(Event.MOUSEMOVE);
+				}
+				document.onmousemove = getCursorXY;
+
+				document.getElementById("audio-frame").setAttribute("src", "songs/" + arrayRandom(songs) + ".mp3");
+				document.body.style.backgroundImage = "url('backgrounds/" + arrayRandom(backgrounds) + ".jpg')";
+			}
+
+			function getCursorXY(e)
+			{
+				let w = document.documentElement.clientWidth;
+				let h = document.documentElement.clientHeight;
+				let x = (window.Event) ? e.pageX : event.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft);
+				let y = (window.Event) ? e.pageY : event.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop);
+				x -= (w / 2);
+				y -= (h / 2);
+				console.log(x)
+				console.log(y)
+				document.getElementById("page-wrap").style.left = (50 + (x / (w / 3))) + "%";
+				document.getElementById("page-wrap").style.top = (50 + (y / (h / 3))) + "%";
+				let opacity = clamp(1 - ((Math.abs(x) + Math.abs(y)) / 400) + 1, 0.2, 1);
+				document.getElementById("page-wrap").style.opacity = opacity
+
+				if (opacity < 0.6)
+				{
+					document.getElementById("hey").innerHTML = "...";
+					document.getElementById("hey2").innerHTML = "...";
+				}
+				else
+				{
+					document.getElementById("hey").innerHTML = "Hey, you!";
+					document.getElementById("hey2").innerHTML = "You're cool. I like you. :3";
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<center>
+			<div id="page-wrap">
+				<br>
+				<h1 id="hey">Hey, you!</h1>
+				<h3 id="hey2">You're cool. I like you. :3</h3><br>
+				<iframe id="audio-frame" src="songs/nujabes.mp3" allow="autoplay" style="display:none"></iframe>
+				<br><br><br>
+				<a href="https://steamcommunity.com/id/sirfrancisbillard" target="_blank">
+					<img src="icons/steam.png" width="45" height="45">
+				</a>
+				<a href="https://www.youtube.com/channel/UCemNLh4ppAEMMF46jHhKhQg" target="_blank">
+					<img src="icons/youtube.png" width="56" height="42">
+				</a>
+				<a href="https://github.com/SirFrancisBillard" target="_blank">
+					<img src="icons/github.png" width="45" height="45">
+				</a>
+				<br><br>
+			</div>
+		</center>
+	</body>
+</html>
