@@ -36,14 +36,8 @@
 				"bench",
 				"bench",
 				"bench",
-				"bench",
-				"bench",
-				"bench",
-				"bench",
 				"trees",
 				"trees",
-				"waterfall",
-				"waterfall",
 				"waterfall",
 				"waterfall",
 				"rocks"
@@ -100,8 +94,8 @@
 				y -= (h / 2);
 				console.log(x)
 				console.log(y)
-				document.getElementById("page-wrap").style.left = (50 + (x / (w / 3))) + "%";
-				document.getElementById("page-wrap").style.top = (50 + (y / (h / 3))) + "%";
+				document.getElementById("page-wrap").style.left = (50 + (x / (w / 6))) + "%";
+				document.getElementById("page-wrap").style.top = (50 + (y / (h / 6))) + "%";
 				let opacity = clamp(1 - ((Math.abs(x) + Math.abs(y)) / 400) + 1, 0.2, 1);
 				document.getElementById("page-wrap").style.opacity = opacity
 
@@ -113,7 +107,22 @@
 				else
 				{
 					document.getElementById("hey").innerHTML = "Hey, you!";
-					document.getElementById("hey2").innerHTML = "You're cool. I like you. :3";
+					document.getElementById("hey2").innerHTML = "You're cool. Have some tea.";
+				}
+			}
+
+			let clicked = false;
+
+			function clickTea()
+			{
+				clicked = !clicked;
+				if (clicked)
+				{
+					document.getElementById("extra-links").innerHTML = "<a href='secrets/kahoot.html'>kahoot</a>";
+				}
+				else
+				{
+					document.getElementById("extra-links").innerHTML = "";
 				}
 			}
 		</script>
@@ -123,9 +132,13 @@
 			<div id="page-wrap">
 				<br>
 				<h1 id="hey">Hey, you!</h1>
-				<h3 id="hey2">You're cool. I like you. :3</h3><br>
+				<h3 id="hey2">You're cool. Have some tea.</h3>
+				<br><br>
 				<iframe id="audio-frame" src="songs/nujabes.mp3" allow="autoplay" style="display:none"></iframe>
-				<br><br><br>
+				<img src="icons/tea.png" width="80" height="200" onclick="clickTea()">
+				<br><br>
+					<div id="extra-links"></div>
+				<br><br>
 				<a href="https://steamcommunity.com/id/sirfrancisbillard" target="_blank">
 					<img src="icons/steam.png" width="45" height="45">
 				</a>
