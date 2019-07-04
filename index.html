@@ -10,7 +10,6 @@
 		<title>hi</title>
 		<style>
 			html, body {
-				background-image: url("assets/background.jpg");
 				background-size: cover;
 				height: 100%;
 				width: 100%;
@@ -30,7 +29,17 @@
 				padding: 20px;
 				background: #EBF5FB;
 				box-shadow: 0 0 40px black;
+				border-style: solid;
+				border-width: 10px;
 				border-radius: 25px;
+				animation-name: bounce;
+				animation-duration: 10s;
+				animation-iteration-count: infinite;
+				animation-timing-function: linear;
+			}
+
+			#extra-links {
+				font-family: "Courier New";
 			}
 
 			#close-button, #open-button {
@@ -53,12 +62,30 @@
 				opacity: 0;
 			}
 
-			#bottom-left {
+			#bottom-left, #bottom-right {
+				font-family: "Courier New";
 				position: absolute;
 				top: 100%;
+			}
+
+			#bottom-left {
 				left: 0%;
 				transform: translate(0%, -100%);
-				opacity: 0%;
+			}
+
+			#bottom-right {
+				left: 100%;
+				transform: translate(-100%, -100%);
+			}
+
+			@keyframes bounce {
+				0% {border-color: red;}
+				17% {border-color: orange;}
+				35% {border-color: yellow;}
+				50% {border-color: lime;}
+				67% {border-color: aqua;}
+				85% {border-color: #9900cc;}
+				100% {border-color: red;}
 			}
 		</style>
 		<script type="text/javascript">
@@ -103,6 +130,12 @@
 			window.onload = init;
 			let tabOpen = true;
 
+			function newScene()
+			{
+				document.getElementById("audio-frame").setAttribute("src", "songs/" + arrayRandom(songs) + ".mp3");
+				document.body.style.backgroundImage = "url('backgrounds/" + arrayRandom(backgrounds) + ".jpg')";
+			}
+
 			function init()
 			{
 				if (window.Event)
@@ -111,8 +144,7 @@
 				}
 				document.onmousemove = getCursorXY;
 
-				document.getElementById("audio-frame").setAttribute("src", "songs/" + arrayRandom(songs) + ".mp3");
-				document.body.style.backgroundImage = "url('backgrounds/" + arrayRandom(backgrounds) + ".jpg')";
+				newScene();
 			}
 
 			function toggleClose()
@@ -129,6 +161,8 @@
 				}
 			}
 
+			function sqr(x) {return x * x;}
+
 			function getCursorXY(e)
 			{
 				let w = document.documentElement.clientWidth;
@@ -138,11 +172,12 @@
 				let x = rx - (w / 2);
 				let y = ry - (h / 2);
 				document.getElementById("page-wrap").style.left = (50 + (x / (w / 6))) + "%";
-				document.getElementById("page-wrap").style.top = (50 + (y / (h / 6))) + "%";
+				document.getElementById("page-wrap").style.top = ((50 + (y / (h / 6))) + Math.sin(Date.now() / 100) * 0) + "%";
 
 				if (tabOpen)
 				{
-					let opacity = clamp(1 - ((Math.abs(x) + Math.abs(y)) / 400) + 1, 0.2, 1);
+					let dist = Math.sqrt(sqr(Math.abs(x)) + sqr(Math.abs(y)))
+					let opacity = clamp(1 - (dist / 200) + 1.2, 0.1, 1);
 					document.getElementById("page-wrap").style.opacity = opacity
 
 					if (opacity < 0.6)
@@ -169,7 +204,7 @@
 				clicked = !clicked;
 				if (clicked)
 				{
-					document.getElementById("extra-links").innerHTML = "<a href='secrets/kahoot.html'>secret kahoot game!</a>";
+					document.getElementById("extra-links").innerHTML = "<a href='secrets/kahoot.html'>kahoot secret</a> - <a href='secrets/randomvid.html'>random video</a>";
 				}
 				else
 				{
@@ -187,7 +222,8 @@
 		</script>
 	</head>
 	<body>
-		<a id= "bottom-left" onclick="secret()">.</a>
+		<a id= "bottom-left" href="javascript:secret()">.</a>
+		<a id= "bottom-right" href="javascript:newScene()">refresh</a>
 		<button id="open-button" onclick="toggleClose()">show</button>
 		<iframe id="audio-frame" src="songs/nujabes.mp3" allow="autoplay" style="display:none"></iframe>
 		<center>
